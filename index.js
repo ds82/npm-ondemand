@@ -6,9 +6,14 @@ var http      = require('http'),
     stream    = require('stream');
 
 var options = {
-  data: 'data/',
+  data: './data/',
   port: 8000
 };
+
+if ( ! fs.existsSync( options.data ) || ! fs.statSync( options.data ).isDirectory()) {
+  console.log('Please ensure that data directory exists...');
+  process.exit(1);
+}
 
 http.createServer( function(req, res ) {
 
@@ -70,3 +75,4 @@ http.createServer( function(req, res ) {
 
 }).listen( options.port );
 console.log('Running on-demand npm mirror on port '+ options.port +' ...');
+
