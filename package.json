@@ -1,6 +1,6 @@
 {
   "name": "npm-ondemand",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A on-demand npm proxy",
   "main": "index.js",
   "scripts": {
