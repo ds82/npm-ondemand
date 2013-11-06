@@ -1,19 +1,19 @@
 var http      = require('http'),
     url       = require('url'),
     request   = require('request'),
-    util      = require('util'),
     fs        = require('fs'),
     path      = require('path'),
     stream    = require('stream');
 
 var options = {
   data: 'data/',
-
+  port: 8000
 };
 
 http.createServer( function(req, res ) {
 
   var urlPath = url.parse(req.url).path;
+  console.log( Date().toLocaleString(), req.headers.host, urlPath );
 
   if (!urlPath.match(/\.tgz$/g)) {
     return request.get('http://registry.npmjs.org' + req.url,
@@ -22,9 +22,6 @@ http.createServer( function(req, res ) {
           var body = JSON.parse(body),
               versions = body.versions,
               name = body.name;
-
-              //console.log(util.inspect(body, null, null, null));
-              console.log( urlPath, name );
 
               if ( body.dist && body.dist.tarball ) {
                 body.dist.tarball = body.dist.tarball
@@ -71,5 +68,5 @@ http.createServer( function(req, res ) {
     });
   }
 
-}).listen(8000);
-console.log('Running on-demand npm mirror on port 8000...');
+}).listen( options.port );
+console.log('Running on-demand npm mirror on port '+ options.port +' ...');
