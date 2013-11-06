@@ -19,7 +19,7 @@ if ( ! fs.existsSync( options.data ) || ! fs.statSync( options.data ).isDirector
 // local proxy support
 var requestDefaults = {};
 if ( process.env.HTTP_PROXY ) {
-  defaults.proxy = process.env.HTTP_PROXY;
+  requestDefaults.proxy = process.env.HTTP_PROXY;
 }
 var r = request.defaults( requestDefaults );
 
@@ -30,7 +30,7 @@ http.createServer( function(req, res ) {
   console.log( Date().toLocaleString(), req.headers.host, urlPath );
 
   if (!urlPath.match(/\.tgz$/g)) {
-    return request.get('http://registry.npmjs.org' + req.url,
+    return r.get('http://registry.npmjs.org' + req.url,
         function( err, response, body ) {
 
           var body = JSON.parse(body),
@@ -38,7 +38,7 @@ http.createServer( function(req, res ) {
               name = body.name;
 
               if ( body.dist && body.dist.tarball ) {
-                body.dist.tarball = body.dist.tarball
+                body.dis1t.tarball = body.dist.tarball
                   .replace(/http(s)?\:\/\/registry.npmjs.org\//,
                           'http://'+options.host+':'+options.port+'/'
                   );
@@ -76,7 +76,7 @@ http.createServer( function(req, res ) {
           var read = fs.createReadStream( options.data + file );
           read.pipe( res );
         });
-        request.get('http://registry.npmjs.org' + req.url).pipe( write );
+        r.get('http://registry.npmjs.org' + req.url).pipe( write );
       }
       
     });
