@@ -16,6 +16,14 @@ if ( ! fs.existsSync( options.data ) || ! fs.statSync( options.data ).isDirector
   process.exit(1);
 }
 
+// local proxy support
+var requestDefaults = {};
+if ( process.env.HTTP_PROXY ) {
+  defaults.proxy = process.env.HTTP_PROXY;
+}
+var r = request.defaults( requestDefaults );
+
+
 http.createServer( function(req, res ) {
 
   var urlPath = url.parse(req.url).path;
