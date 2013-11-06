@@ -1,0 +1,14 @@
+{
+  "name": "npm-ondemand",
+  "version": "0.0.1",
+  "description": "A on-demand npm proxy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dennis Sänger",
+  "license": "MIT",
+  "dependencies": {
+    "request": "~2.27.0"
+  }
+}
