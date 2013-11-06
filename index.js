@@ -7,6 +7,7 @@ var http      = require('http'),
 
 var options = {
   data: './data/',
+  host: 'localhost',
   port: 8000
 };
 
@@ -31,7 +32,7 @@ http.createServer( function(req, res ) {
               if ( body.dist && body.dist.tarball ) {
                 body.dist.tarball = body.dist.tarball
                   .replace(/http(s)?\:\/\/registry.npmjs.org\//,
-                          'http://localhost:8000/'
+                          'http://'+options.host+':'+options.port+'/'
                   );
               } 
 
@@ -41,7 +42,7 @@ http.createServer( function(req, res ) {
                     versions[version].dist.tarball
                       .replace(
                         /http(s)?\:\/\/registry.npmjs.org\//,
-                        'http://localhost:8000/'
+                        'http://'+options.host+':'+options.port+'/'
                       );
                 });
               }
