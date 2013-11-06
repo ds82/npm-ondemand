@@ -6,9 +6,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Dennis Sänger",
+  "author": "Dennis Sänger <saenger@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "request": "~2.27.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ds82/npm-ondemand.git"
+  },
+  "keywords": [
+    "npm",
+    "proxy",
+    "cache"
+  ],
+  "engines": {
+    "node": ">=0.8"
   }
 }
