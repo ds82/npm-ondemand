@@ -1,22 +1,40 @@
-var http      = require('http'),
-    url       = require('url'),
-    request   = require('request'),
-    fs        = require('fs'),
-    path      = require('path'),
-    stream    = require('stream');
+var http        = require('http'),
+    url             = require('url'),
+    request         = require('request'),
+    fs              = require('fs'),
+    path            = require('path'),
+    stream          = require('stream'),
+    
+    options         = {},
+    optionsFile     = './options.json',
+    defaultOptions  = {
+      data: './data/',
+      host: 'localhost',
+      port: 8000
+    };
 
-var options = {
-  data: './data/',
-  host: 'localhost',
-  port: 8000
-};
+// OPTIONS
+if ( ! fs.existsSync( optionsFile )) {
+  fs.writeFile( optionsFile, JSON.stringify( defaultOptions, null, ' ' ), function( err ) {
 
+    if ( err ) {
+      console.log('ERROR occured while writing default options');
+    }
+  });
+  options = defaultOptions;
+  console.log('created a default options file for you ('+optionsFile+')');
+
+} else {
+  options = require( optionsFile );
+}
+
+// DATA DIR
 if ( ! fs.existsSync( options.data ) || ! fs.statSync( options.data ).isDirectory()) {
   console.log('Please ensure that data directory exists...');
   process.exit(1);
 }
 
-// local proxy support
+// LOCAL PROXY SUPPORT
 var requestDefaults = {};
 if ( process.env.HTTP_PROXY ) {
   requestDefaults.proxy = process.env.HTTP_PROXY;
@@ -26,7 +44,7 @@ var r = request.defaults( requestDefaults );
 
 http.createServer( function(req, res ) {
 
-  var urlPath = url.parse(req.url).path;
+  var urlPath = url.parse( req.url ).path;
   console.log( Date().toLocaleString(), req.connection.remoteAddress, urlPath );
 
   if (!urlPath.match(/\.tgz$/g)) {
