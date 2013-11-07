@@ -97,7 +97,6 @@ http.createServer( function(req, res ) {
         });
         r.get('http://registry.npmjs.org' + req.url).pipe( write );
       }
-      
     });
   }
 
