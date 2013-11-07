@@ -55,8 +55,8 @@ http.createServer( function(req, res ) {
             body = JSON.parse( body );
           } catch( e ) {}
 
-          versions = body.versions,
-          name = body.name;
+          versions = body.versions || [],
+          name = body.name || '';
 
           if ( body.dist && body.dist.tarball ) {
             body.dist.tarball = body.dist.tarball
