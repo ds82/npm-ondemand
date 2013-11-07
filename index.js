@@ -33,28 +33,30 @@ http.createServer( function(req, res ) {
     return r.get('http://registry.npmjs.org' + req.url,
         function( err, response, body ) {
 
-          var body = JSON.parse(body),
-              versions = body.versions,
-              name = body.name;
+          try {
+            body = JSON.parse( body );
+          } catch( e ) {}
 
-              if ( body.dist && body.dist.tarball ) {
-                body.dis1t.tarball = body.dist.tarball
-                  .replace(/http(s)?\:\/\/registry.npmjs.org\//,
-                          'http://'+options.host+':'+options.port+'/'
+          versions = body.versions,
+          name = body.name;
+
+          if ( body.dist && body.dist.tarball ) {
+            body.dist.tarball = body.dist.tarball
+              .replace(/http(s)?\:\/\/registry.npmjs.org\//,
+                      'http://'+options.host+':'+options.port+'/'
+              );
+          } 
+
+          if ( versions ) {
+            Object.keys(versions).forEach(function(version) {
+              versions[version].dist.tarball = 
+                versions[version].dist.tarball
+                  .replace(
+                    /http(s)?\:\/\/registry.npmjs.org\//,
+                    'http://'+options.host+':'+options.port+'/'
                   );
-              } 
-
-              if ( versions ) {
-                Object.keys(versions).forEach(function(version) {
-                  versions[version].dist.tarball = 
-                    versions[version].dist.tarball
-                      .replace(
-                        /http(s)?\:\/\/registry.npmjs.org\//,
-                        'http://'+options.host+':'+options.port+'/'
-                      );
-                });
-              }
-
+            });
+          }
 
           res.end(JSON.stringify(body));
         });
@@ -62,7 +64,6 @@ http.createServer( function(req, res ) {
   } else {
 
     var file = path.basename( req.url );
-
     fs.exists( options.data + file, function( exists ) {
       
       if ( exists ) {
