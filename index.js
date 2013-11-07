@@ -6,7 +6,7 @@ var http        = require('http'),
     stream          = require('stream'),
     
     options         = {},
-    optionsFile     = './options.json',
+    optionsFile     = process.cwd() + '/options.json',
     defaultOptions  = {
       data: './data/',
       host: 'localhost',
