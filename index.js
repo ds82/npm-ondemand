@@ -27,7 +27,7 @@ var r = request.defaults( requestDefaults );
 http.createServer( function(req, res ) {
 
   var urlPath = url.parse(req.url).path;
-  console.log( Date().toLocaleString(), req.headers.host, urlPath );
+  console.log( Date().toLocaleString(), req.connection.remoteAddress, urlPath );
 
   if (!urlPath.match(/\.tgz$/g)) {
     return r.get('http://registry.npmjs.org' + req.url,
